@@ -57,7 +57,7 @@ spec:
     app: my-web
     # Blue-Green ke liye niche wali line uncomment rakho
     # Canary ke liye niche wali line ko delete ya comment (#) kar do
-    version: blue  
+    # version: blue  
   ports:
     - port: 80
       targetPort: 80
