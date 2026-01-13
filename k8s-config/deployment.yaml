@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hello-container
-        image: acavinash/blue
+        image: acavinash/blue:v1
         ports:
         - containerPort: 80
 
@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
       - name: hello-container
-        image: acavinash/green
+        image: acavinash/green:v1
         ports:
         - containerPort: 80
 
