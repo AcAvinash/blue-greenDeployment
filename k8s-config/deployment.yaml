@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: hello-container
-        image: apkauser/my-app:v1
+        image: acavinash/blue:v1
         ports:
         - containerPort: 80
 
@@ -41,7 +41,7 @@ spec:
     spec:
       containers:
       - name: hello-container
-        image: apkauser/my-app:v2
+        image: acavinash/green:v1
         ports:
         - containerPort: 80
 
