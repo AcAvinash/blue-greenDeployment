@@ -1,0 +1,61 @@
+# --- BLUE DEPLOYMENT ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-web
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: my-web
+        version: blue
+    spec:
+      containers:
+      - name: hello-container
+        image: apkauser/my-app:v1
+        ports:
+        - containerPort: 80
+
+---
+# --- GREEN DEPLOYMENT ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-web
+      version: green
+  template:
+    metadata:
+      labels:
+        app: my-web
+        version: green
+    spec:
+      containers:
+      - name: hello-container
+        image: apkauser/my-app:v2
+        ports:
+        - containerPort: 80
+
+---
+# --- THE SERVICE (The Traffic Controller) ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-web
+    version: blue  # <--- Shuruat mein Blue ko point kar raha hai
+  ports:
+    - port: 80
+      targetPort: 80
