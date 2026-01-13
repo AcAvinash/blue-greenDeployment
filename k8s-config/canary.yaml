@@ -1,63 +1,60 @@
-# --- BLUE VERSION (V1) ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-blue
+  name: canary-blue
+  labels:
+    deployment-type: canary
 spec:
-  replicas: 2
+  replicas: 1 # 80%
   selector:
     matchLabels:
-      app: my-web
+      app: my-web-canary  # Different app name
       version: blue
   template:
     metadata:
       labels:
-        app: my-web
+        app: my-web-canary  # Different
         version: blue
+        deployment-type: canary
     spec:
       containers:
       - name: hello-container
         image: acavinash/blue:v1
-        ports:
-        - containerPort: 80
-
 ---
-# --- GREEN VERSION (V2) ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-green
+  name: canary-green
+  labels:
+    deployment-type: canary
 spec:
-  replicas: 2
+  replicas: 3  # 20% canary
   selector:
     matchLabels:
-      app: my-web
+      app: my-web-canary  # Different
       version: green
   template:
     metadata:
       labels:
-        app: my-web
+        app: my-web-canary  # Different
         version: green
+        deployment-type: canary
     spec:
       containers:
       - name: hello-container
         image: acavinash/green:v1
-        ports:
-        - containerPort: 80
-
 ---
-# --- TRAFFIC MANAGER (SERVICE) ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-service
+  name: canary-service
+  labels:
+    deployment-type: canary
 spec:
   type: LoadBalancer
   selector:
-    app: my-web
-    # Blue-Green ke liye niche wali line uncomment rakho
-    # Canary ke liye niche wali line ko delete ya comment (#) kar do
-    # version: blue  
+    app: my-web-canary  # Different
+    # NO version selector - canary uses replica-based split
   ports:
-    - port: 80
+    - port: 81  # Different port
       targetPort: 80
