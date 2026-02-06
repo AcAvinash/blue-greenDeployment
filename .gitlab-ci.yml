@@ -1,0 +1,9 @@
+build_blue:
+  stage: build
+  script:
+    - docker build -t gitlabBlue:blue-$CI_COMMIT_SHORT_SHA blue
+
+build_green:
+  stage: build
+  script:
+    - docker build -t gitlabGreen:green-$CI_COMMIT_SHORT_SHA green
